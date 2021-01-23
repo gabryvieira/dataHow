@@ -3,7 +3,6 @@ import threading
 from flask import Flask, jsonify
 import config
 
-#app = Flask(__name__)
 app1 = Flask(__name__)
 app2 = Flask(__name__)
 
@@ -14,11 +13,21 @@ app2 = Flask(__name__)
 
 @app1.route('/')
 def index1():
-    return 'Hello World 1'
+    return 'Logs micro service. Please go to /logs page'
 
 @app2.route('/')
 def index2():
+    return 'Logs micro service. Please go to /metrics page'
+
+
+@app1.route('/logs')
+def logs():
+    return 'Hello World 1'
+
+@app2.route('/metrics')
+def metrics():
     return 'Hello World 2'
+
 
 # if __name__ == '__main__':
 #     app.run(host='0.0.0.0', port=900)
