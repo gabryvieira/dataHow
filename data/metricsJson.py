@@ -36,5 +36,4 @@ metricsLog = [
         'ip': '83.154.59.250',
         'url': 'www.test.com'
     }
-
 ]
