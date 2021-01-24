@@ -2,6 +2,8 @@ import threading
 
 from flask import Flask, jsonify
 import config
+from data import metrics, metricsJson
+from data.metrics import Metrics
 
 app1 = Flask(__name__)
 app2 = Flask(__name__)
@@ -10,6 +12,9 @@ app2 = Flask(__name__)
 # def index() -> str:
 #     # transform a dict into an application/json response
 #     return jsonify({"message": "It Works"})
+
+# global variable
+metricsLogs = metricsJson.metricsLog
 
 @app1.route('/')
 def index1():
@@ -26,9 +31,14 @@ def logs():
 
 @app2.route('/metrics')
 def metrics():
-    return 'Hello World 2'
+    metrics = Metrics()
+    return "Unique IP addresses: "+str(metrics.getUniqueIPAdresses(metricsLogs))
 
-
+@app2.route('/allmetrics')
+def getAllMetrics():
+    metrics = Metrics()
+    return "different urls: "+str(metrics.getDifferentURLs(metricsLogs))
+    #return "Metrics list: "+str(metrics.getMetrics())
 # if __name__ == '__main__':
 #     app.run(host='0.0.0.0', port=900)
 
@@ -47,3 +57,4 @@ if __name__ == '__main__':
     t2 = threading.Thread(target=runMetrics)
     t1.start()
     t2.start()
+
