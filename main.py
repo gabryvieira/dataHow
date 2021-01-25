@@ -34,11 +34,11 @@ def metrics():
 @app2.route('/allmetrics')
 def getAllMetrics():
     metrics = Metrics()
-    return jsonify({"Number of unique IP Addresses": metrics.getUniqueIPAdresses(metricsLogs),
-                    "Number of different URLS": metrics.getDifferentURLs(metricsLogs),
-                    "Number of connections": metrics.getNumberOfConnections(metricsLogs),
-                    "All metrics": metrics.getMetrics(),
-                    "Last connection at": metrics.getLastConnection(metricsLogs)})
+    return jsonify({"unique_ip_addresses": metrics.getUniqueIPAdresses(metricsLogs),
+                    "different_urls": metrics.getDifferentURLs(metricsLogs),
+                    "number_of_connections": metrics.getNumberOfConnections(metricsLogs),
+                    "all_metrics": metrics.getMetrics(),
+                    "last_connection_at": metrics.getLastConnection(metricsLogs)})
 
 
 # With Multi-Threading Apps, YOU CANNOT USE DEBUG!

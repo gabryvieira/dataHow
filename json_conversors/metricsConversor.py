@@ -10,7 +10,7 @@ def uniqueIPAddressesToJSON(metricsList):
     metrics = Metrics()
     uniqueIPAddresses = metrics.getUniqueIPAdresses(metricsList)
 
-    return jsonify({"Number of unique IP addresses": uniqueIPAddresses})
+    return jsonify({"unique_ip_addresses": uniqueIPAddresses})
 
 def getAllMetricsToJSON(metricsList):
     assert metricsList is not None, "Cannot get metrics!"
@@ -18,7 +18,7 @@ def getAllMetricsToJSON(metricsList):
     metrics = Metrics()
     allMetrics = metrics.getMetrics()
 
-    return jsonify({"Metrics": allMetrics})
+    return jsonify({"all_metrics": allMetrics})
 
 def lastConnectionToJSON(metricsList):
     assert metricsList is not None, "Cannot the most recent connection!"
@@ -26,4 +26,4 @@ def lastConnectionToJSON(metricsList):
     metrics = Metrics()
     lastConnection = metrics.getLastConnection(metricsList)
 
-    return jsonify({"Last connection at": lastConnection})
+    return jsonify({"last_connection_at": lastConnection})
