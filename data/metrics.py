@@ -1,7 +1,5 @@
-import json
-import collections
 from data.metricsJson import metricsLog
-
+from datetime import datetime, timezone
 
 class Metrics:
     def __init__(self):
@@ -24,3 +22,7 @@ class Metrics:
     def getDifferentURLs(self, metricsList):
         differentUrls = len(set(p['url'] for p in metricsList))
         return differentUrls
+
+    def getLastConnection(self, metricsList):
+        timestamps = max(p['timestamp'] for p in metricsList)
+        return timestamps

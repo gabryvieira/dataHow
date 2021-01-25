@@ -2,16 +2,12 @@ import threading
 
 from flask import Flask, jsonify
 import config
-from data import metrics, metricsJson
+from data import metricsJson
+import json_conversors.metricsConversor as convertToJSON
 from data.metrics import Metrics
 
 app1 = Flask(__name__)
 app2 = Flask(__name__)
-
-
-# def index() -> str:
-#     # transform a dict into an application/json response
-#     return jsonify({"message": "It Works"})
 
 # global variable
 metricsLogs = metricsJson.metricsLog
@@ -27,25 +23,29 @@ def index2():
 
 @app1.route('/logs')
 def logs():
-    return 'Hello World 1'
+    return 'Logs'
+
 
 @app2.route('/metrics')
 def metrics():
-    metrics = Metrics()
-    return "Unique IP addresses: "+str(metrics.getUniqueIPAdresses(metricsLogs))
+    return convertToJSON.uniqueIPAddressesToJSON(metricsLogs)
+
 
 @app2.route('/allmetrics')
 def getAllMetrics():
     metrics = Metrics()
-    return "different urls: "+str(metrics.getDifferentURLs(metricsLogs))
-    #return "Metrics list: "+str(metrics.getMetrics())
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0', port=900)
+    return jsonify({"unique_ip_addresses": metrics.getUniqueIPAdresses(metricsLogs),
+                    "different_urls": metrics.getDifferentURLs(metricsLogs),
+                    "number_of_connections": metrics.getNumberOfConnections(metricsLogs),
+                    "all_metrics": metrics.getMetrics(),
+                    "last_connection_at": metrics.getLastConnection(metricsLogs)})
+
 
 # With Multi-Threading Apps, YOU CANNOT USE DEBUG!
 # Though you can sub-thread.
 def runLogs():
     app1.run(host=config.config_logs["host"], port=config.config_logs["port"], debug=False, threaded=True)
+
 
 def runMetrics():
     app2.run(host=config.config_metrics["host"], port=config.config_metrics["port"], debug=False, threaded=True)
