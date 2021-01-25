@@ -1,5 +1,6 @@
+from flask import jsonify
+
 from data.metricsJson import metricsLog
-from datetime import datetime, timezone
 
 class Metrics:
     def __init__(self):
@@ -26,3 +27,32 @@ class Metrics:
     def getLastConnection(self, metricsList):
         timestamps = max(p['timestamp'] for p in metricsList)
         return timestamps
+
+    ### to json
+    def uniqueIPAddressesToJSON(self, metricsList):
+        assert metricsList is not None, "Cannot get unique ip addresses!"
+
+        uniqueIPAddresses = self.getUniqueIPAdresses(metricsList)
+
+        return jsonify({"unique_ip_addresses": uniqueIPAddresses})
+
+    def getAllMetricsToJSON(self, metricsList):
+        assert metricsList is not None, "Cannot get metrics!"
+
+        allMetrics = self.getMetrics()
+
+        return jsonify({"all_metrics": allMetrics})
+
+    def lastConnectionToJSON(self, metricsList):
+        assert metricsList is not None, "Cannot the most recent connection!"
+
+        lastConnection = self.getLastConnection(metricsList)
+
+        return jsonify({"last_connection_at": lastConnection})
+
+    def differentUrlsToJSON(self, metricsList):
+        assert metricsList is not None, "Cannot the most recent connection!"
+
+        differentUrls = self.getDifferentURLs(metricsList)
+
+        return jsonify({"different_urls": differentUrls})
