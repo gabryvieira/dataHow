@@ -3,7 +3,6 @@ import threading
 from flask import Flask, jsonify
 import config
 from data import metricsJson
-import json_conversors.metricsConversor as convertToJSON
 from data.metrics import Metrics
 
 app1 = Flask(__name__)
@@ -28,7 +27,8 @@ def logs():
 
 @app2.route('/metrics')
 def metrics():
-    return convertToJSON.uniqueIPAddressesToJSON(metricsLogs)
+    metrics = Metrics()
+    return metrics.uniqueIPAddressesToJSON(metricsLogs)
 
 
 @app2.route('/allmetrics')
